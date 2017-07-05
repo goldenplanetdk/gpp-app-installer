@@ -1,0 +1,21 @@
+{
+    "name": "goldenplanetdk/gpp-app-installer",
+    "description": "Installed app for GPP",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Eugene Stepanov",
+            "email": "evgeniy@goldenpanet.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "symfony/event-dispatcher": "^3.2",
+        "doctrine/dbal": "^2.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "GoldenPlanet\\Gpp\\App\\Installer\\": ""
+        }
+    }
+}

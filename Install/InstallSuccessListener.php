@@ -38,7 +38,14 @@ class InstallSuccessListener
             'is_secure_protocol' => (int) ($event->protocol() == 'https'),
             'created_at' => (new \DateTime())->format('Y-m-d H:i:s'),
         ];
-        $this->connection->insert('installations', $data);
+
+        $shopId = $this->connection->executeQuery('SELECT id FROM installations WHERE shop = :shop', ['shop' => $event->shop()])->fetchColumn();
+
+        if ($shopId) {
+            $this->connection->update('installations', $data, ['id' => $shopId]);
+        } else {
+            $this->connection->insert('installations', $data);
+        }
 
         $client = $this->api->createClient($event->shop());
 

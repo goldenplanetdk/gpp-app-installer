@@ -5,6 +5,7 @@ namespace GoldenPlanet\Gpp\App\Installer\Install;
 use Doctrine\DBAL\Connection;
 use GoldenPlanet\Gpp\App\Installer\Api\StoreApiFactory;
 use GoldenPlanet\Gpp\App\Installer\InstallationSuccess;
+use GoldenPlanet\Gpp\App\Installer\UpdateScheme;
 
 class InstallSuccessListener
 {
@@ -54,5 +55,19 @@ class InstallSuccessListener
             'event_name' => 'app.uninstalled',
         ];
         $client->call('POST', '/api/v1/webhooks', $data);
+    }
+
+    public function updateScheme(UpdateScheme $event) {
+        $shopId = $this->connection->executeQuery(
+            'SELECT id FROM installations WHERE shop = :shop AND is_secure_protocol != :secure',
+            [
+                'shop' => $event->shop(),
+                'secure' => $event->isSecure()
+            ]
+        )->fetchColumn();
+
+        if ($shopId) {
+            $this->connection->update('installations', ['is_secure_protocol' => $event->isSecure()], ['shop' => $event->shop()]);
+        }
     }
 }

@@ -62,12 +62,12 @@ class InstallSuccessListener
             'SELECT id FROM installations WHERE shop = :shop AND is_secure_protocol != :secure',
             [
                 'shop' => $event->shop(),
-                'secure' => $event->isSecure()
+                'secure' => (int)$event->isSecure()
             ]
         )->fetchColumn();
 
         if ($shopId) {
-            $this->connection->update('installations', ['is_secure_protocol' => $event->isSecure()], ['shop' => $event->shop()]);
+            $this->connection->update('installations', ['is_secure_protocol' => (int)$event->isSecure()], ['id' => $shopId]);
         }
     }
 }

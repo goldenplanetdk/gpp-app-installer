@@ -30,7 +30,15 @@ class CurlHttpClient implements Client
 
         $headers = $this->curlParseHeaders($message_headers);
         if ($headers['http_status_code'] >= 400) {
-            throw new \DomainException(sprintf('Bad request. [%d]', $headers['http_status_code']));
+            throw new \DomainException(
+                sprintf(
+                    "Bad request. [%d]\nURL:%s\nMETHOD: %s\nBody:%s",
+                    $headers['http_status_code'],
+                    $url,
+                    $method,
+                    $message_body
+                )
+            );
         }
 
         return $message_body;

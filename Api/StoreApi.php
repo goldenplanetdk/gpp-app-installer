@@ -41,6 +41,7 @@ class StoreApi
 
         // add auth headers
         $headers[] = 'Authorization: Bearer ' . $this->token;
+        $headers = array_merge($headers, $this->getExtraHeaders());
 
         $options = [
             'query' => $query,
@@ -54,6 +55,11 @@ class StoreApi
             throw new \DomainException("Bad request. $method - $path");
         }
         return $response;
+    }
+
+    protected function getExtraHeaders()
+    {
+        return [];
     }
 
 }

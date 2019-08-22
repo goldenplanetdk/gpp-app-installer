@@ -49,6 +49,7 @@ class StoreApi
         ];
         $response = $this->client->request($method, $url, $options);
 
+        $response = preg_replace('/[^(\x00-\x7F)]*/','', $response);
         $response = json_decode($response, true);
         if (isset($response['errors'])) {
             throw new \DomainException("Bad request. $method - $path");

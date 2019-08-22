@@ -26,7 +26,7 @@ class CurlHttpClient implements Client
         if ($errno) {
             throw new \Exception($error, $errno);
         }
-        list($message_headers, $message_body) = preg_split("/\r\n\r\n|\n\n|\r\r/", $response, 2);
+        list($message_headers, $message_body) = preg_split("/\r\n\r\n|\n\n|\r\r|\r\n/", $response, 2);
 
         $headers = $this->curlParseHeaders($message_headers);
         if ($headers['http_status_code'] >= 400) {

@@ -2,6 +2,8 @@
 
 namespace GoldenPlanet\Gpp\App\Installer\Validator;
 
+use GoldenPlanet\Gpp\App\Installer\Exception\HmacValidationException;
+
 class HmacValidator
 {
 
@@ -19,13 +21,13 @@ class HmacValidator
 
         // validate hmac
         if (!$hmac) {
-            throw new \InvalidArgumentException('Invalid hmac value');
+            throw new HmacValidationException('Invalid hmac value');
         }
 
         unset($data['hmac']);
 
         if (hash_hmac('sha256', http_build_query($data), $this->secret) !== $hmac) {
-            throw new \InvalidArgumentException('Hmac verification failed');
+            throw new HmacValidationException('Hmac verification failed');
         }
     }
 }

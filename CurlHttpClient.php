@@ -75,7 +75,9 @@ class CurlHttpClient implements Client
     {
         $header_lines = preg_split("/\r\n|\n|\r/", $message_headers);
         $headers = array();
-        list(, $headers['http_status_code'], $headers['http_status_message']) = explode(' ', trim(array_shift($header_lines)), 3);
+        $status = explode(' ', trim(array_shift($header_lines)), 3);
+        $headers['http_status_code'] = $status[1];
+        $headers['http_status_message'] = $status[2] ?? 'OK';
         foreach ($header_lines as $header_line) {
             list($name, $value) = explode(':', $header_line, 2);
             $name = strtolower($name);

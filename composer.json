@@ -10,7 +10,7 @@
     ],
     "require": {
         "php": ">=7.0",
-        "symfony/event-dispatcher": "^4.0",
+        "symfony/event-dispatcher": "*",
         "doctrine/dbal": "^2.5"
     },
     "autoload": {

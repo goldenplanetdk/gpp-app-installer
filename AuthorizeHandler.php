@@ -63,7 +63,7 @@ class AuthorizeHandler
 
         if (isset($token['access_token'])) {
             $event = new InstallationSuccess($domain, $token['access_token'], $protocol);
-            $this->dispatcher->dispatch('app.installation.success', $event);
+            $this->dispatcher->dispatch($event, 'app.installation.success');
             return $token['access_token'];
         } else {
             throw new \InvalidArgumentException(sprintf('Token structure is wrong %s', $response));

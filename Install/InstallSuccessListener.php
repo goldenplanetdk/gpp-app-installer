@@ -40,7 +40,7 @@ class InstallSuccessListener
             'created_at' => (new \DateTime())->format('Y-m-d H:i:s'),
         ];
 
-        $shopId = $this->connection->executeQuery('SELECT id FROM installations WHERE shop = :shop', ['shop' => $event->shop()])->fetchColumn();
+        $shopId = $this->connection->executeQuery('SELECT id FROM installations WHERE shop = :shop', ['shop' => $event->shop()])->fetchOne();
 
         if ($shopId) {
             $this->connection->update('installations', $data, ['id' => $shopId]);
@@ -64,7 +64,7 @@ class InstallSuccessListener
                 'shop' => $event->shop(),
                 'secure' => (int)$event->isSecure()
             ]
-        )->fetchColumn();
+        )->fetchOne();
 
         if ($shopId) {
             $this->connection->update('installations', ['is_secure_protocol' => (int)$event->isSecure()], ['id' => $shopId]);

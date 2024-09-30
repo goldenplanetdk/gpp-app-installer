@@ -32,7 +32,7 @@ class StoreApiFactory
 
     public function createClient($shop)
     {
-        $installations = $this->connection->fetchAll('SELECT token, is_secure_protocol from installations WHERE shop = ? ORDER BY id DESC', [$shop]);
+        $installations = $this->connection->fetchAllAssociative('SELECT token, is_secure_protocol from installations WHERE shop = ? ORDER BY id DESC', [$shop]);
 
         if (!count($installations)) {
             throw new \Exception(sprintf('Store %s is not found in database', $shop));

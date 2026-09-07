@@ -67,10 +67,14 @@ class HmacValidator
      * inside the string the hmac was computed over - the signer appends it
      * before signing - so it cannot be dropped or edited without failing the
      * check above, which has already run. A captured URL therefore always
-     * carries its own timestamp and is always checked. A caller that has never
-     * sent one keeps working, which matters because every OBB app pins this
-     * package by commit, and a mandatory rule would be a latent breakage for
-     * the apps outside this change's view.
+     * carries its own timestamp, and is therefore always checked.
+     *
+     * The conditional shape is not there to keep a timestamp-less caller
+     * working: every signer in the fleet appends one to everything it signs,
+     * so no such caller is known to exist and the allowance is hypothetical.
+     * It is there because a mandatory rule would refuse a request this package
+     * cannot see the signer of, in an app that pins it by commit hash, to buy
+     * a strictness the paragraph above shows is already unreachable.
      *
      * @throws HmacValidationException
      */

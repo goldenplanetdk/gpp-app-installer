@@ -46,8 +46,11 @@ class HmacValidatorTest extends TestCase
 
     public function testAcceptsASignedQueryStringThatCarriesNoTimestamp()
     {
-        // Every OBB app pins this package by commit; a caller that has never
-        // sent a timestamp must keep working after the pin is bumped.
+        // The rule is conditional, so this is what "conditional" means. It is
+        // not a caller anyone has: every signer in the fleet appends a
+        // timestamp to everything it signs, so this shape is hypothetical - the
+        // conditional exists because it cannot be evaded, not because someone
+        // is relying on it.
         $query = $this->sign(['shop' => 'shop.dk']);
 
         $this->validator()->validate($query);
